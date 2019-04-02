@@ -230,8 +230,22 @@ if (window.Quill) {
     'style',
   ];
 
-  var BaseVideoFormat = window.Quill.import('blots/embed');
+  var BaseVideoFormat = window.Quill.import('blots/block/embed');
   class VideoFormat extends BaseVideoFormat {
+    static create(url) {
+      let node = super.create(url);
+      let iframe = document.createElement('iframe');
+      // Set styles for wrapper
+      node.setAttribute('class', 'embed-responsive embed-responsive-16by9');
+      // Set styles for iframe
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', true);
+      iframe.setAttribute('src', url);
+      iframe.setAttribute('background-color:', '#000');
+      // Append iframe as child to wrapper
+      node.appendChild(iframe);
+      return node;
+    }
     static formats(domNode) {
       console.log("domNode");
       console.log(domNode);
